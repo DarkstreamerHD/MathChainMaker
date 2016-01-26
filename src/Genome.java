@@ -1,4 +1,3 @@
-import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,7 +122,7 @@ public class Genome {
             switch (calc.get(i + 1))
             {
                 case "*":
-                    calc.set(i , String.valueOf(Integer.valueOf(calc.get(i)) *  Integer.valueOf(calc.get(i + 2))));
+                    calc.set(i , String.valueOf(Double.valueOf(calc.get(i)) *  Double.valueOf(calc.get(i + 2))));
                     calc.remove(i+2);
                     calc.remove(i+1);
                     break;
@@ -132,7 +131,7 @@ public class Genome {
                     {
                         throw new RuntimeException("Div by Zero");
                     }
-                    calc.set(i , String.valueOf(Integer.valueOf(calc.get(i)) /  Integer.valueOf(calc.get(i + 2))));
+                    calc.set(i , String.valueOf(Double.valueOf(calc.get(i)) /  Double.valueOf(calc.get(i + 2))));
                     calc.remove(i+2);
                     calc.remove(i+1);
                     break;
@@ -141,16 +140,16 @@ public class Genome {
             }
         }
         //Strichrechnung
-        float r = Float.valueOf(calc.get(0));
+        double r = Float.valueOf(calc.get(0));
         for (int i = 0; i < calc.size() -1; i = i +2)
         {
             switch (calc.get(i + 1))
             {
                 case "+":
-                    r = r + Integer.valueOf(calc.get(i + 2));
+                    r = r + Double.valueOf(calc.get(i + 2));
                     break;
                 case "-":
-                    r = r - Integer.valueOf(calc.get(i + 2));
+                    r = r - Double.valueOf(calc.get(i + 2));
                     break;
                 default:
                     throw new RuntimeException("Something went completley Wrong this should never happen");
