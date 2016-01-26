@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_mathchainmaker" default="compile.module.mathchainmaker">
+  <dirname property="module.mathchainmaker.basedir" file="${ant.file.module_mathchainmaker}"/>
+  
+  <property name="module.jdk.home.mathchainmaker" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.mathchainmaker" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.mathchainmaker" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.mathchainmaker" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="mathchainmaker.output.dir" value="${module.mathchainmaker.basedir}/out/production/MathChainMaker"/>
+  <property name="mathchainmaker.testoutput.dir" value="${module.mathchainmaker.basedir}/out/test/MathChainMaker"/>
+  
+  <path id="mathchainmaker.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="mathchainmaker.module.production.classpath">
+    <path refid="${module.jdk.classpath.mathchainmaker}"/>
+  </path>
+  
+  <path id="mathchainmaker.runtime.production.module.classpath">
+    <pathelement location="${mathchainmaker.output.dir}"/>
+  </path>
+  
+  <path id="mathchainmaker.module.classpath">
+    <path refid="${module.jdk.classpath.mathchainmaker}"/>
+    <pathelement location="${mathchainmaker.output.dir}"/>
+  </path>
+  
+  <path id="mathchainmaker.runtime.module.classpath">
+    <pathelement location="${mathchainmaker.testoutput.dir}"/>
+    <pathelement location="${mathchainmaker.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.mathchainmaker">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.mathchainmaker">
+    <patternset refid="excluded.from.module.mathchainmaker"/>
+  </patternset>
+  
+  <path id="mathchainmaker.module.sourcepath">
+    <dirset dir="${module.mathchainmaker.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.mathchainmaker" depends="compile.module.mathchainmaker.production,compile.module.mathchainmaker.tests" description="Compile module MathChainMaker"/>
+  
+  <target name="compile.module.mathchainmaker.production" depends="register.custom.compilers" description="Compile module MathChainMaker; production classes">
+    <mkdir dir="${mathchainmaker.output.dir}"/>
+    <javac2 destdir="${mathchainmaker.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.mathchainmaker}/javac">
+      <compilerarg line="${compiler.args.mathchainmaker}"/>
+      <bootclasspath refid="mathchainmaker.module.bootclasspath"/>
+      <classpath refid="mathchainmaker.module.production.classpath"/>
+      <src refid="mathchainmaker.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.mathchainmaker"/>
+    </javac2>
+    
+    <copy todir="${mathchainmaker.output.dir}">
+      <fileset dir="${module.mathchainmaker.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.mathchainmaker.tests" depends="register.custom.compilers,compile.module.mathchainmaker.production" description="compile module MathChainMaker; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.mathchainmaker" description="cleanup module">
+    <delete dir="${mathchainmaker.output.dir}"/>
+    <delete dir="${mathchainmaker.testoutput.dir}"/>
+  </target>
+</project>
